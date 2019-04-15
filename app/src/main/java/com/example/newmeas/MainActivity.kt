@@ -2,12 +2,13 @@ package com.example.newmeas
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.BaseAdapter
-import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.newmeas.Adapters.CustomAdapter
 import com.example.newmeas.Models.Measures
 import com.example.newmeas.Models.MeasuresVM
 import com.example.newmeas.REALMS.RealmFactory
@@ -17,17 +18,38 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MeasuresVM
-   // private lateinit var adapterLV: BaseAdapter
-    private lateinit var listview: ListView
+   // private lateinit var recyclerView: RecyclerView
     private var list: MutableList<Measures> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        /*
+        test
+         */
+        var testlist: ArrayList<Measures> = arrayListOf()
+        var mes1 = Measures()
+        mes1.name = "1011"
+        var mes2 = Measures()
+        mes2.name = "222"
+
+        testlist.add(mes1)
+        testlist.add(mes2)
+
+        Toast.makeText(this, mes2.name, Toast.LENGTH_SHORT).show()
+
+        val objAdapter = CustomAdapter(testlist)
+        recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        recyclerView.adapter = objAdapter
+
+
+
+
+
         initRealm("testBase")
         initVM()
-        test()
+       // test()
 
     }
 
@@ -41,33 +63,30 @@ class MainActivity : AppCompatActivity() {
     private fun initVM() {
         viewModel = ViewModelProviders.of(this).get(MeasuresVM::class.java)
 
-        //initLV()
-
         viewModel.data.observe(this, Observer { mutableList ->
             //здесь идет работа с полученным списком данных
 
-            message.text = "size = ${mutableList.size.toString()}"
-            bigOut.text = ""
+           // message.text = "size = ${mutableList.size.toString()}"
+           // bigOut.text = ""
 
             /*
             очистка списка и повторное заполнение
              */
 
-            listview = findViewById(R.id.listview)
-            //adapterLV = MeasureListAdapter(this, mutableList)
-          //  listview.adapter = adapterLV
-          //  adapterLV.notifyDataSetChanged()
+
+          //  adapter = CountersRecyclerAdapter(mutableList, this)
+          //  recyclerView.adapter = adapter
 
 
-            for (tt in mutableList) {
+            /*for (tt in mutableList) {
                 bigOut.append("${tt.name}\n")
-            }
+            }*/
         })
 
 
     }
 
-    private fun test() {
+   /* private fun test() {
 
         var nameInBase: String
 
@@ -75,7 +94,7 @@ class MainActivity : AppCompatActivity() {
 
             nameInBase = enterName.text.toString()
             viewModel.insert(nameInBase)
-            bigOut.append("$nameInBase\n")
+           // bigOut.append("$nameInBase\n")
 
 
 
@@ -90,7 +109,7 @@ class MainActivity : AppCompatActivity() {
             viewModel.delete(nameInBase)
 
             //todo 2/ Сделать обновление адаптера. Если не получится, попробовать recyclerView.
-
+//todo card view?
 
 
         }
@@ -104,6 +123,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-    }
+    }*/
 
 }
