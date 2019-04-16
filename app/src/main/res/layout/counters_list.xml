@@ -7,21 +7,22 @@
 
     <androidx.cardview.widget.CardView android:layout_width="match_parent"
                                        android:elevation="5dp"
-                                       app:cardCornerRadius="10dp"
-                                       android:layout_margin="5dp"
+                                       app:cardCornerRadius="4dp"
+                                       android:layout_margin="@dimen/recyclerMarginVert"
                                        android:layout_gravity="center"
                                        android:layout_height="wrap_content">
 
 
         <RelativeLayout android:layout_width="match_parent"
                         android:orientation="vertical"
-                        android:background="@color/primaryLightColor"
+                        android:background="@color/colorRecycler"
                         android:layout_height="match_parent">
 
             <TextView android:layout_width="wrap_content"
                       android:text="1111111111"
-                      android:layout_marginTop="10dp"
-                      android:layout_marginLeft="10dp"
+                      android:textSize="25sp"
+                      android:layout_marginTop="@dimen/recyclerMarginVert"
+                      android:layout_marginLeft="@dimen/recyclerMarginHort"
                       android:id="@+id/recyclerCounterTitle"
                       android:layout_height="wrap_content"
 
@@ -30,9 +31,10 @@
             <TextView android:layout_width="wrap_content"
                       android:layout_below="@id/recyclerCounterTitle"
                       android:text="2222"
-                      android:layout_marginLeft="10dp"
-                      android:layout_marginTop="8dp"
-                      android:layout_marginBottom="10dp"
+                      android:id="@+id/recyclerCounterCurrentValue"
+                      android:layout_marginLeft="@dimen/recyclerMarginHort"
+                      android:layout_marginTop="@dimen/recyclerMarginVert"
+                      android:layout_marginBottom="@dimen/recyclerMarginVert"
                       android:layout_height="wrap_content"/>
 
         </RelativeLayout>

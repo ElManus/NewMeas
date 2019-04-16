@@ -1,6 +1,5 @@
 package com.example.newmeas
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -15,114 +14,79 @@ import com.example.newmeas.REALMS.RealmFactory
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
 
-    private lateinit var viewModel: MeasuresVM
-   // private lateinit var recyclerView: RecyclerView
-    private var list: MutableList<Measures> = mutableListOf()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        private lateinit var viewModel: MeasuresVM
+        // private lateinit var recyclerView: RecyclerView
+        private var list: MutableList<Measures> = mutableListOf()
 
-        /*
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_main)
+
+            /*
         test
          */
-        var testlist: ArrayList<Measures> = arrayListOf()
-        var mes1 = Measures()
-        mes1.name = "1011"
-        var mes2 = Measures()
-        mes2.name = "222"
+            var testlist: ArrayList<Measures> = arrayListOf()
+            var mes1 = Measures()
+            mes1.name = "1011"
+            var mes2 = Measures()
+            mes2.name = "222"
 
-        testlist.add(mes1)
-        testlist.add(mes2)
+            testlist.add(mes1)
+            testlist.add(mes2)
 
-        Toast.makeText(this, mes2.name, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, mes2.name, Toast.LENGTH_SHORT).show()
 
-        val objAdapter = CustomAdapter(testlist)
-        recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        recyclerView.adapter = objAdapter
-
-
-
+            //Todo разобраться, как тут работает лямбда-функия, почитать учебник.
+            val objAdapter = CustomAdapter(testlist) { mess: Measures -> clickedRecyclerItem(mess)}
+            recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+            recyclerView.adapter = objAdapter
 
 
-        initRealm("testBase")
-        initVM()
-       // test()
+            initRealm("testBase")
+            initVM()
+
+        }
+
+    private fun clickedRecyclerItem(mess: Measures) {
+        Toast.makeText(applicationContext, mess.name, Toast.LENGTH_SHORT).show()
 
     }
 
     private fun initRealm(dbName: String) {
-        Realm.init(this)
-        val realmFactory: RealmFactory = RealmFactory()
-        realmFactory.setRealmConfiguration(dbName)
+            Realm.init(this)
+            val realmFactory: RealmFactory = RealmFactory()
+            realmFactory.setRealmConfiguration(dbName)
 
-    }
+        }
 
-    private fun initVM() {
-        viewModel = ViewModelProviders.of(this).get(MeasuresVM::class.java)
 
-        viewModel.data.observe(this, Observer { mutableList ->
-            //здесь идет работа с полученным списком данных
+        private fun initVM() {
+            viewModel = ViewModelProviders.of(this).get(MeasuresVM::class.java)
 
-           // message.text = "size = ${mutableList.size.toString()}"
-           // bigOut.text = ""
+            viewModel.data.observe(this, Observer { mutableList ->
+                //здесь идет работа с полученным списком данных
 
-            /*
+                // message.text = "size = ${mutableList.size.toString()}"
+                // bigOut.text = ""
+
+                /*
             очистка списка и повторное заполнение
              */
 
 
-          //  adapter = CountersRecyclerAdapter(mutableList, this)
-          //  recyclerView.adapter = adapter
+                //  adapter = CountersRecyclerAdapter(mutableList, this)
+                //  recyclerView.adapter = adapter
 
 
-            /*for (tt in mutableList) {
+                /*for (tt in mutableList) {
                 bigOut.append("${tt.name}\n")
             }*/
-        })
+            })
+
 
 
     }
-
-   /* private fun test() {
-
-        var nameInBase: String
-
-        addbutton.setOnClickListener {
-
-            nameInBase = enterName.text.toString()
-            viewModel.insert(nameInBase)
-           // bigOut.append("$nameInBase\n")
-
-
-
-        }
-
-        deletebutton.setOnClickListener {
-
-            nameInBase = enterName.text.toString()
-
-
-            Toast.makeText(this,"${viewModel.findByName(nameInBase)?.name ?:"no name"} was deleted", Toast.LENGTH_SHORT).show()
-            viewModel.delete(nameInBase)
-
-            //todo 2/ Сделать обновление адаптера. Если не получится, попробовать recyclerView.
-//todo card view?
-
-
-        }
-
-        showbutton.setOnClickListener {
-            Toast.makeText(this, "Test", Toast.LENGTH_SHORT).show()
-        }
-
-        nextbutton.setOnClickListener {
-            val intent = Intent(this, Main2Activity::class.java)
-            startActivity(intent)
-            finish()
-        }
-    }*/
-
 }
