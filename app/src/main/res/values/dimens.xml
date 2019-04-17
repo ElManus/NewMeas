@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="recyclerMarginVert">1dp</dimen>
-    <dimen name="recyclerMarginHort">5dp</dimen>
+    <dimen name="recyclerMarginHoriz">5dp</dimen>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.newmeas.Adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +14,15 @@ import kotlinx.android.synthetic.main.counters_list.view.*
 /*
 исп-ся в аргументах лямбда-функция
  */
-class CustomAdapter(private val mess: ArrayList<Measures>, private val clickListener: (Measures) -> Unit) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class CustomAdapter(private var mess: MutableList<Measures>, private val clickListener: (Measures) -> Unit) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
 
+    fun updateList (list: MutableList<Measures>){
+
+        mess.clear()
+        mess.addAll(list)
+        notifyDataSetChanged()
+    }
 
     //this method is returning the view for each item in the list
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomAdapter.ViewHolder {

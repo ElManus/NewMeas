@@ -8,7 +8,7 @@
     <androidx.cardview.widget.CardView android:layout_width="match_parent"
                                        android:elevation="5dp"
                                        app:cardCornerRadius="4dp"
-                                       android:layout_margin="@dimen/recyclerMarginVert"
+                                       android:layout_marginBottom="@dimen/recyclerMarginVert"
                                        android:layout_gravity="center"
                                        android:layout_height="wrap_content">
 
@@ -22,7 +22,7 @@
                       android:text="1111111111"
                       android:textSize="25sp"
                       android:layout_marginTop="@dimen/recyclerMarginVert"
-                      android:layout_marginLeft="@dimen/recyclerMarginHort"
+                      android:layout_marginLeft="@dimen/recyclerMarginHoriz"
                       android:id="@+id/recyclerCounterTitle"
                       android:layout_height="wrap_content"
 
@@ -32,7 +32,7 @@
                       android:layout_below="@id/recyclerCounterTitle"
                       android:text="2222"
                       android:id="@+id/recyclerCounterCurrentValue"
-                      android:layout_marginLeft="@dimen/recyclerMarginHort"
+                      android:layout_marginLeft="@dimen/recyclerMarginHoriz"
                       android:layout_marginTop="@dimen/recyclerMarginVert"
                       android:layout_marginBottom="@dimen/recyclerMarginVert"
                       android:layout_height="wrap_content"/>

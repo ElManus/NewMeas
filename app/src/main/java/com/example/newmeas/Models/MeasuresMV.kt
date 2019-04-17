@@ -1,6 +1,7 @@
 package com.example.newmeas.Models
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.example.newmeas.REALMS.measureModel
@@ -16,7 +17,7 @@ class MeasuresVM(application: Application): AndroidViewModel(application) {
 
     init {
         //при инициализации VM (в том числе и после смены конфигурации), получаем "живые данные" от Dao
-        data = realmDB.measureModel().getAllMeasures()
+        data = realmDB.measureModel().getAllMeasuresByLiveData()
     }
 
     fun findByName(name: String): Measures? {
@@ -31,4 +32,16 @@ class MeasuresVM(application: Application): AndroidViewModel(application) {
     {
         return realmDB.measureModel().delete(name)
     }
+
+    fun getAll(): MutableList<Measures>? {
+        var tt =  realmDB.measureModel().getAll()
+
+        Log.i("LOG", "----------- getAll() -----------")
+        for (tf in tt){
+            Log.i("LOG", "                ${tf.name}")
+        }
+            return tt
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package com.example.newmeas.REALMS
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.newmeas.Models.Measures
@@ -30,16 +31,18 @@ class MeasureDao(val realm: Realm) {
 
     fun delete (name: String): Boolean{
         return if(realm.where(Measures::class.java).equalTo("name", name).findFirst() != null){
-            realm.executeTransactionAsync {
+            realm.executeTransaction{
                 val result = it.where(Measures::class.java).equalTo("name", name).findAll()
                 result?.deleteAllFromRealm()
-                //todo а асинхронный запрос точно выполнится?
             }
             true
         } else {
             false
         }
 
+        /*
+        todo сделать тут слушателя на onSuccess, дабы не отказываться от асинхронности!
+         */
 
     }
 
@@ -65,7 +68,7 @@ class MeasureDao(val realm: Realm) {
 
     }
 
-    fun getAllMeasures(): LiveData<MutableList<Measures>> {
+    fun getAllMeasuresByLiveData(): LiveData<MutableList<Measures>> {
         //Получаем результат асинхронного поиска всех объектов в базе.
         val result = realm
             .where(Measures::class.java)
@@ -76,5 +79,11 @@ class MeasureDao(val realm: Realm) {
         return livedataList
     }
 
+
+    fun getAll(): MutableList<Measures>{
+        return realm
+            .where(Measures::class.java)
+            .findAllAsync()
+    }
 
 }
