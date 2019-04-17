@@ -1,8 +1,8 @@
 package com.example.newmeas.REALMS
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.newmeas.Utils.EventRealmCallback
 import com.example.newmeas.Models.Measures
 import io.realm.Realm
 
@@ -29,22 +29,21 @@ class MeasureDao(val realm: Realm) {
         }
     }
 
-    fun delete (name: String): Boolean{
-        return if(realm.where(Measures::class.java).equalTo("name", name).findFirst() != null){
-            realm.executeTransaction{
+    /*
+    сначала должно произойти удаление, а только после него - выгрузка данных для обновления recyclerview
+     */
+    fun delete (name: String, callback: EventRealmCallback) {
+        if (realm.where(Measures::class.java).equalTo("name", name).findFirst() != null) {
+            realm.executeTransactionAsync(Realm.Transaction {
                 val result = it.where(Measures::class.java).equalTo("name", name).findAll()
                 result?.deleteAllFromRealm()
+                }, Realm.Transaction.OnSuccess {
+                callback.onComplete()
             }
-            true
-        } else {
-            false
+            )}
         }
 
-        /*
-        todo сделать тут слушателя на onSuccess, дабы не отказываться от асинхронности!
-         */
 
-    }
 
     fun deleteAll () {
         realm.executeTransactionAsync {

@@ -1,9 +1,9 @@
 package com.example.newmeas.Models
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import com.example.newmeas.Utils.EventRealmCallback
 import com.example.newmeas.REALMS.measureModel
 import io.realm.Realm
 
@@ -28,19 +28,13 @@ class MeasuresVM(application: Application): AndroidViewModel(application) {
         return (realmDB.measureModel().insert(name))
     }
 
-    fun delete(name: String): Boolean
+    fun delete(name: String, callback: EventRealmCallback)
     {
-        return realmDB.measureModel().delete(name)
+        return realmDB.measureModel().delete(name, callback)
     }
 
     fun getAll(): MutableList<Measures>? {
-        var tt =  realmDB.measureModel().getAll()
-
-        Log.i("LOG", "----------- getAll() -----------")
-        for (tf in tt){
-            Log.i("LOG", "                ${tf.name}")
-        }
-            return tt
+        return realmDB.measureModel().getAll()
     }
 
 

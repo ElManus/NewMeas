@@ -2,7 +2,6 @@ package com.example.newmeas
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -13,6 +12,7 @@ import com.example.newmeas.Adapters.CustomAdapter
 import com.example.newmeas.Models.Measures
 import com.example.newmeas.Models.MeasuresVM
 import com.example.newmeas.REALMS.RealmFactory
+import com.example.newmeas.Utils.EventRealmCallback
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
@@ -44,11 +44,25 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /*
+    обработка нажатий на элементе списка
+     */
     private fun clickedRecyclerItem(mess: Measures) {
 
-        viewModel.delete(mess.name)
-        objAdapter.updateList(viewModel.getAll()!!)
-        recyclerView.adapter = objAdapter
+        /*
+        сейчас по нажатию идет удаление.
+        Вызываем удаление из базы. Если оно прошло успешно, то через коллбэк вызывается событие onComplete.
+        А тут мы его перегружаем и пишем то, что нам надо.
+         */
+        viewModel.delete(mess.name, object : EventRealmCallback {
+            override fun onComplete() {
+                Toast.makeText(applicationContext, "Deleted, got and updated!", Toast.LENGTH_SHORT).show()
+                objAdapter.updateList(viewModel.getAll()!!)
+                recyclerView.adapter = objAdapter
+            }
+        })
+
+
     }
 
     private fun initRealm(dbName: String) {
