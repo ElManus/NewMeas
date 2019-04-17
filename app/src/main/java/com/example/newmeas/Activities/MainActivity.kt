@@ -1,4 +1,4 @@
-package com.example.newmeas
+package com.example.newmeas.Activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.newmeas.Adapters.CustomAdapter
 import com.example.newmeas.Models.Measures
 import com.example.newmeas.Models.MeasuresVM
+import com.example.newmeas.R
 import com.example.newmeas.REALMS.RealmFactory
 import com.example.newmeas.Utils.EventRealmCallback
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -20,7 +21,6 @@ import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
-
     private lateinit var viewModel: MeasuresVM
     private lateinit var objAdapter: CustomAdapter
 
@@ -28,20 +28,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-
-
         initRealm("testBase")
         initVM()
 
         val fab = findViewById<FloatingActionButton>(R.id.add_fab)
         fab.setOnClickListener {
-            viewModel.insert("test"+ Random.nextInt(0,100))
+            viewModel.insert("test" + Random.nextInt(0, 100))
             val intent = Intent(this, AddCounterActivity::class.java)
             startActivity(intent)
             finish()
         }
-
     }
 
     /*
@@ -61,17 +57,13 @@ class MainActivity : AppCompatActivity() {
                 recyclerView.adapter = objAdapter
             }
         })
-
-
     }
 
     private fun initRealm(dbName: String) {
         Realm.init(this)
         val realmFactory = RealmFactory()
         realmFactory.setRealmConfiguration(dbName)
-
     }
-
 
     private fun initVM() {
         viewModel = ViewModelProviders.of(this).get(MeasuresVM::class.java)
@@ -81,9 +73,7 @@ class MainActivity : AppCompatActivity() {
             objAdapter = CustomAdapter(mutableList) { mess: Measures -> clickedRecyclerItem(mess) }
             recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
             recyclerView.adapter = objAdapter
-
         })
-
-
     }
+
 }

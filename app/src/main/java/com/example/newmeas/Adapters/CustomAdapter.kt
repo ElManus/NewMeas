@@ -14,10 +14,11 @@ import kotlinx.android.synthetic.main.counters_list.view.*
 /*
 исп-ся в аргументах лямбда-функция
  */
-class CustomAdapter(private var mess: MutableList<Measures>, private val clickListener: (Measures) -> Unit) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class CustomAdapter(private var mess: MutableList<Measures>, private val clickListener: (Measures) -> Unit) :
+    RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
 
-    fun updateList (list: MutableList<Measures>){
+    fun updateList(list: MutableList<Measures>) {
 
         mess.clear()
         mess.addAll(list)
@@ -38,7 +39,6 @@ class CustomAdapter(private var mess: MutableList<Measures>, private val clickLi
     }
 
 
-
     //this method is giving the size of the list
     override fun getItemCount(): Int {
         return mess.size
@@ -47,10 +47,10 @@ class CustomAdapter(private var mess: MutableList<Measures>, private val clickLi
     //the class is hodling the list view
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-       fun bind(mess: Measures, clickListener: (Measures) -> Unit){
-           itemView.recyclerCounterTitle.text = mess.name
-           itemView.setOnClickListener{clickListener(mess)}
-       }
+        fun bind(mess: Measures, clickListener: (Measures) -> Unit) {
+            itemView.recyclerCounterTitle.text = mess.name
+            itemView.setOnClickListener { clickListener(mess) }
+        }
     }
 
 }

@@ -28,4 +28,5 @@ class RealmFactory {
         val realmFile = File(realmConfiguration.path)
         return realmFile.exists()
     }
+
 }

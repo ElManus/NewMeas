@@ -1,15 +1,15 @@
-package com.example.newmeas
+package com.example.newmeas.Activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_main2.*
+import com.example.newmeas.R
 
 class AddCounterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main2)
+        setContentView(R.layout.add_counter_activity)
 
 
         }
