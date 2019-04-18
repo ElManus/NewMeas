@@ -77,3 +77,8 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
+
+
+/*
+todo нужно разделить
+ */
