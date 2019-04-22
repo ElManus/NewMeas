@@ -6,7 +6,7 @@ import com.example.newmeas.Utils.EventRealmCallback
 import com.example.newmeas.Models.Measures
 import io.realm.Realm
 
-class MeasureDao(val realm: Realm) {
+class Repository(val realm: Realm): Dao {
 
     //Переменная содержит livedata - изменяемый список объектов Measures
     private var livedataList: MutableLiveData<MutableList<Measures>> = MutableLiveData()
@@ -14,7 +14,7 @@ class MeasureDao(val realm: Realm) {
     /*
     Описываем  все методы работы с базой данных
      */
-    fun insert (name: String): Boolean{
+    override fun insert (name: String): Boolean{
         //Проверка. Если такого имени нет, тогда асинхронно вносим новые данные.
         return if(realm.where(Measures::class.java).equalTo("name",name).findFirst() == null) {
 
@@ -32,7 +32,7 @@ class MeasureDao(val realm: Realm) {
     /*
     сначала должно произойти удаление, а только после него - выгрузка данных для обновления recyclerview
      */
-    fun delete (name: String, callback: EventRealmCallback) {
+    override fun delete (name: String, callback: EventRealmCallback) {
         if (realm.where(Measures::class.java).equalTo("name", name).findFirst() != null) {
             realm.executeTransactionAsync(Realm.Transaction {
                 val result = it.where(Measures::class.java).equalTo("name", name).findAll()
@@ -45,14 +45,14 @@ class MeasureDao(val realm: Realm) {
 
 
 
-    fun deleteAll () {
+    override fun deleteAll () {
         realm.executeTransactionAsync {
             val result = it.where(Measures::class.java).findAll()
             result.deleteAllFromRealm()
         }
     }
 
-    fun findByName(nameFind: String): Measures? {
+    override fun findByName(nameFind: String): Measures? {
         val res = realm
             .where(Measures::class.java)
             .equalTo("name", nameFind)
@@ -67,7 +67,7 @@ class MeasureDao(val realm: Realm) {
 
     }
 
-    fun getAllMeasuresByLiveData(): LiveData<MutableList<Measures>> {
+    override fun getAllMeasuresByLiveData(): LiveData<MutableList<Measures>> {
         //Получаем результат асинхронного поиска всех объектов в базе.
         val result = realm
             .where(Measures::class.java)
@@ -79,7 +79,7 @@ class MeasureDao(val realm: Realm) {
     }
 
 
-    fun getAll(): MutableList<Measures>{
+    override fun getAll(): MutableList<Measures>{
         return realm
             .where(Measures::class.java)
             .findAllAsync()
@@ -89,9 +89,19 @@ class MeasureDao(val realm: Realm) {
 
 /*
 todo нужно разделить:
-1. написать интерфейс ДАО, определить все методы работы с базой.
-2. этот файл переименовать в репозиторий, наследовать интерфейс
+1. написать интерфейс ДАО, определить все методы работы с базой. == готово!
+2. этот файл переименовать в репозиторий, наследовать интерфейс == готово!
 НО ПЕРЕД ЭТИМ - РАЗОБРАТЬСЯ с DI. Стас говорит, что как разберусь, пойму как и почему делаются разные репозитории
 под разные нужды. При этом VM без разницы, какой репозиторий использовать.
+
+С DI разобрался.
+Теперь нужно разобраться с зависимостями, что куда должно идти.
+Сначала определяем, что в каких классах внедряется.
+Все это определяем.
+Расставляем инжекты
+Потом определяем интерфейс AppComponent и модули.
+Делаем App класс
+Заносим name = "App" в манифест
+
 
  */
