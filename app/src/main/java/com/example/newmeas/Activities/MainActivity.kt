@@ -9,8 +9,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newmeas.Adapters.CustomAdapter
-import com.example.newmeas.Models.Measures
-import com.example.newmeas.Models.MeasuresVM
+import com.example.newmeas.App
+import com.example.newmeas.Data.Measures
+import com.example.newmeas.Data.MeasuresVM
 import com.example.newmeas.R
 import com.example.newmeas.REALMS.RealmFactory
 import com.example.newmeas.Utils.EventRealmCallback
@@ -22,6 +23,7 @@ import kotlin.random.Random
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MeasuresVM
+
     private lateinit var objAdapter: CustomAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +32,9 @@ class MainActivity : AppCompatActivity() {
 
         initRealm("testBase")
         initVM()
+
+
+        App.appComponent.inject(this)
 
         val fab = findViewById<FloatingActionButton>(R.id.add_fab)
         fab.setOnClickListener {
@@ -78,7 +83,3 @@ class MainActivity : AppCompatActivity() {
 
 }
 
-
-/*
-todo нужно разделить
- */

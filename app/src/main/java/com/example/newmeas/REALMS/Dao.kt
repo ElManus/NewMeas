@@ -1,7 +1,7 @@
 package com.example.newmeas.REALMS
 
 import androidx.lifecycle.LiveData
-import com.example.newmeas.Models.Measures
+import com.example.newmeas.Data.Measures
 import com.example.newmeas.Utils.EventRealmCallback
 
 interface Dao {

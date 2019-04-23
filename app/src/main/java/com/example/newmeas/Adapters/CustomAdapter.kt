@@ -1,13 +1,10 @@
 package com.example.newmeas.Adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.newmeas.Models.Measures
+import com.example.newmeas.Data.Measures
 import com.example.newmeas.R
 import kotlinx.android.synthetic.main.counters_list.view.*
 

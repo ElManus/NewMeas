@@ -3,7 +3,7 @@ package com.example.newmeas.REALMS
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.newmeas.Utils.EventRealmCallback
-import com.example.newmeas.Models.Measures
+import com.example.newmeas.Data.Measures
 import io.realm.Realm
 
 class Repository(val realm: Realm): Dao {
@@ -95,7 +95,7 @@ todo нужно разделить:
 под разные нужды. При этом VM без разницы, какой репозиторий использовать.
 
 С DI разобрался.
-Теперь нужно разобраться с зависимостями, что куда должно идти.
+Теперь нужно разобраться с зависимостями, что куда должно идти. ПОСМОТРЕТЬ ПРИМЕРЫ
 Сначала определяем, что в каких классах внедряется.
 Все это определяем.
 Расставляем инжекты

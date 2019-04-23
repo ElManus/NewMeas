@@ -19,14 +19,4 @@ class RealmFactory {
         return realmConfiguration
     }
 
-    fun isRealmFileExists(dbName: String): Boolean{
-        val realmConfiguration = RealmConfiguration.Builder()
-            .name(dbName)
-            .deleteRealmIfMigrationNeeded()
-            .build()
-
-        val realmFile = File(realmConfiguration.path)
-        return realmFile.exists()
-    }
-
 }
