@@ -35,8 +35,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         App.appComponent.injectMainActivity(this)
+        realmFactory.setRealmConfiguration()
 
-        initRealm("testBase")
+
         initVM()
 
 
@@ -70,12 +71,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun initRealm(dbName: String) {
-        Realm.init(this)
-        //val realmFactory = RealmFactory()
-        realmFactory.setRealmConfiguration(dbName)
-    }
-
     private fun initVM() {
         viewModel = ViewModelProviders.of(this).get(MeasuresVM::class.java)
 
@@ -89,3 +84,4 @@ class MainActivity : AppCompatActivity() {
 
 }
 
+//todo попробовать сделать inject viewModel и на этом заканчиваем с Dagger 2

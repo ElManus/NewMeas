@@ -1,13 +1,12 @@
 package com.example.newmeas.REALMS
 
 import io.realm.Realm
+import javax.inject.Inject
+
 
 /*
-Вот что должно быть в модели:
-val level = realmDB.measureDao().insert("sssf")
-Таким образом, мы в Realm+Dao делаем прослойку между данными, которыми оперируют Dao и VM.
-(Extention function) Функция расширения. В данном случае означает, что мы Realm (как объект
-библиотеки) расширяем дополнительной функцией. Эта ф-ия типа Repository, и тело её = Repository.
-Тем самым, мы можем теперь из VM исполнять методы Dao.
+Дополняем тип Realm новой функцией, которая возвращает объект Repository.
+Тем самым мы делаем проброс в viewModel: обращаясь напрямую к базе Realm, мы можем вызвать этот метод
+и через него обратиться к репозиторию, а из него - выполнить методы работы с базой.
  */
 fun Realm.measureModel(): Repository = Repository(this)

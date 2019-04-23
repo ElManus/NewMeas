@@ -10,9 +10,9 @@ class RealmFactory @Inject constructor() {
     /*
     Repository. Работа с инстансами базы Realm
      */
-    fun setRealmConfiguration (dbName: String): RealmConfiguration {
+    fun setRealmConfiguration (): RealmConfiguration {
         val realmConfiguration = RealmConfiguration.Builder()
-            .name(dbName)
+            .name("MeasuresDatabase")
             .deleteRealmIfMigrationNeeded()
             .build()
 
