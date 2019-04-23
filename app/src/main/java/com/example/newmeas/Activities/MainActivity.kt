@@ -18,6 +18,7 @@ import com.example.newmeas.Utils.EventRealmCallback
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
@@ -26,15 +27,20 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var objAdapter: CustomAdapter
 
+    @Inject
+    lateinit var realmFactory : RealmFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        App.appComponent.injectMainActivity(this)
 
         initRealm("testBase")
         initVM()
 
 
-        App.appComponent.inject(this)
+
 
         val fab = findViewById<FloatingActionButton>(R.id.add_fab)
         fab.setOnClickListener {
@@ -66,7 +72,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initRealm(dbName: String) {
         Realm.init(this)
-        val realmFactory = RealmFactory()
+        //val realmFactory = RealmFactory()
         realmFactory.setRealmConfiguration(dbName)
     }
 

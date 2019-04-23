@@ -5,8 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import com.example.newmeas.Utils.EventRealmCallback
 import com.example.newmeas.Data.Measures
 import io.realm.Realm
+import javax.inject.Inject
 
-class Repository(val realm: Realm): Dao {
+class Repository (val realm: Realm): Dao {
+
+    //@Inject
+    //lateinit var realm: Realm
 
     //Переменная содержит livedata - изменяемый список объектов Measures
     private var livedataList: MutableLiveData<MutableList<Measures>> = MutableLiveData()

@@ -3,8 +3,9 @@ package com.example.newmeas.REALMS
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import java.io.File
+import javax.inject.Inject
 
-class RealmFactory {
+class RealmFactory @Inject constructor() {
 
     /*
     Repository. Работа с инстансами базы Realm
