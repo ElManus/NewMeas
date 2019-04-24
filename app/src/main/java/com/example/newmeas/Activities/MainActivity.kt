@@ -2,6 +2,9 @@ package com.example.newmeas.Activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.ContextMenu
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -14,9 +17,7 @@ import com.example.newmeas.Data.Measures
 import com.example.newmeas.Data.MeasuresVM
 import com.example.newmeas.R
 import com.example.newmeas.REALMS.RealmFactory
-import com.example.newmeas.Utils.EventRealmCallback
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import kotlin.random.Random
@@ -26,6 +27,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MeasuresVM
 
     private lateinit var objAdapter: CustomAdapter
+
+    var clickedName: String = ""
 
     @Inject
     lateinit var realmFactory : RealmFactory
@@ -37,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         App.appComponent.injectMainActivity(this)
         realmFactory.setRealmConfiguration()
 
+        registerForContextMenu(recyclerView)
 
         initVM()
 
@@ -57,18 +61,22 @@ class MainActivity : AppCompatActivity() {
      */
     private fun clickedRecyclerItem(mess: Measures) {
 
+        openContextMenu(recyclerView)
+        clickedName = mess.name
+
+
         /*
         сейчас по нажатию идет удаление.
         Вызываем удаление из базы. Если оно прошло успешно, то через коллбэк вызывается событие onComplete.
         А тут мы его перегружаем и пишем то, что нам надо.
          */
-        viewModel.delete(mess.name, object : EventRealmCallback {
+       /* viewModel.delete(mess.name, object : EventRealmCallback {
             override fun onComplete() {
                 Toast.makeText(applicationContext, "Deleted, got and updated!", Toast.LENGTH_SHORT).show()
                 objAdapter.updateList(viewModel.getAll()!!)
                 recyclerView.adapter = objAdapter
             }
-        })
+        })*/
     }
 
     private fun initVM() {
@@ -82,6 +90,35 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+
+        //Set Header of Context Menu
+       // menu!!.setHeaderTitle("Select Option")
+
+        menu?.add(0, v!!.id, 0, "Открыть")
+        menu?.add(0, v!!.id, 1, "Удалить")
+        menu?.add(0, v!!.id, 2, "Test")
+
+
+    }
+
+    override fun onContextItemSelected(item: MenuItem?): Boolean {
+
+        val itemMenu = item?.title
+
+        if (clickedName != "") {
+            when(itemMenu)
+            {
+                "Удалить", "Открыть" -> Toast.makeText(applicationContext,"Name is $clickedName, clicked $itemMenu", Toast.LENGTH_SHORT).show()
+                "Test" -> Toast.makeText(applicationContext,"Test!", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+
+        return true
+    }
 }
 
 //todo попробовать сделать inject viewModel и на этом заканчиваем с Dagger 2
