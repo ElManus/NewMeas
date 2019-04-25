@@ -19,6 +19,7 @@ import com.example.newmeas.R
 import com.example.newmeas.REALMS.RealmFactory
 import com.example.newmeas.Utils.EventRealmCallback
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import kotlin.random.Random
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     var clickedName: Measures? = null
 
     @Inject
-    lateinit var realmFactory : RealmFactory
+    lateinit var realmFactory: RealmFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,14 +47,13 @@ class MainActivity : AppCompatActivity() {
         initVM()
 
 
-
-
         val fab = findViewById<FloatingActionButton>(R.id.add_fab)
         fab.setOnClickListener {
-            viewModel.insert("test" + Random.nextInt(0, 100))
+            viewModel.insert("test" + Random.nextInt(0, 100), Random.nextFloat() )
             val intent = Intent(this, AddCounterActivity::class.java)
             startActivity(intent)
             finish()
+            Realm.getDefaultInstance().close()
         }
     }
 
@@ -61,23 +61,8 @@ class MainActivity : AppCompatActivity() {
     обработка нажатий на элементе списка
      */
     private fun clickedRecyclerItem(mess: Measures) {
-
         openContextMenu(recyclerView)
         clickedName = mess
-
-
-        /*
-        сейчас по нажатию идет удаление.
-        Вызываем удаление из базы. Если оно прошло успешно, то через коллбэк вызывается событие onComplete.
-        А тут мы его перегружаем и пишем то, что нам надо.
-         */
-       /* viewModel.delete(mess.name, object : EventRealmCallback {
-            override fun onComplete() {
-                Toast.makeText(applicationContext, "Deleted, got and updated!", Toast.LENGTH_SHORT).show()
-                objAdapter.updateList(viewModel.getAll()!!)
-                recyclerView.adapter = objAdapter
-            }
-        })*/
     }
 
     private fun initVM() {
@@ -94,7 +79,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
 
-        //Set Header of Context Menu
         menu!!.setHeaderTitle("Действия:")
 
         menu.run {
@@ -111,9 +95,8 @@ class MainActivity : AppCompatActivity() {
         val itemMenu = item?.title
 
         if (clickedName != null) {
-            when(itemMenu)
-            {
-                "Удалить" ->{
+            when (itemMenu) {
+                "Удалить" -> {
                     viewModel.delete(clickedName!!.name, object : EventRealmCallback {
                         override fun onComplete() {
                             Toast.makeText(applicationContext, "Deleted, got and updated!", Toast.LENGTH_SHORT).show()
@@ -122,8 +105,12 @@ class MainActivity : AppCompatActivity() {
                         }
                     })
                 }
-                "Открыть" -> Toast.makeText(applicationContext, "Opening...", Toast.LENGTH_SHORT).show()
-
+                "Открыть" -> {
+                    val intent = Intent(this, AddCounterActivity::class.java)
+                    intent.putExtra("name", clickedName!!.name)
+                    startActivity(intent)
+                    finish()
+                }
             }
         }
         return true

@@ -6,7 +6,7 @@ import com.example.newmeas.Utils.EventRealmCallback
 
 interface Dao {
 
-    fun insert(name: String):Boolean
+    fun insert(name: String, currentValue: Float):Boolean
 
     fun delete(name: String, callback: EventRealmCallback)
 

@@ -16,13 +16,14 @@ class Repository (val realm: Realm): Dao {
     /*
     Описываем  все методы работы с базой данных
      */
-    override fun insert (name: String): Boolean{
+    override fun insert (name: String, currentValue: Float): Boolean{
         //Проверка. Если такого имени нет, тогда асинхронно вносим новые данные.
         return if(realm.where(Measures::class.java).equalTo("name",name).findFirst() == null) {
 
             realm.executeTransactionAsync {
                 val item = Measures()
                 item.name = name
+                item.currentValue = currentValue
                 it.insert(item)
             }
             true

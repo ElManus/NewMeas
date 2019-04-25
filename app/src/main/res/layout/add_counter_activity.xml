@@ -10,19 +10,21 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:focusable="auto"
             android:layout_height="wrap_content"
             app:counterEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:counterMaxLength="30"
+            android:layout_margin="10dp"
             app:hintAnimationEnabled="true"
             android:hint="Название счетчика:">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:focusable="auto"
                 android:textSize="22sp"
+                android:id="@+id/measName"
                 android:layout_height="wrap_content"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -32,9 +34,10 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:focusable="auto"
+            android:layout_margin="10dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_height="wrap_content"
             android:hint="Текущее показание счетчика:">
 
@@ -42,6 +45,7 @@
                 android:layout_width="match_parent"
                 android:focusable="auto"
                 android:singleLine="true"
+                android:id="@+id/measCurrValue"
                 android:inputType="numberDecimal"
                 android:layout_height="wrap_content"/>
 
