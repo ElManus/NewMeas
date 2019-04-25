@@ -17,6 +17,7 @@ import com.example.newmeas.Data.Measures
 import com.example.newmeas.Data.MeasuresVM
 import com.example.newmeas.R
 import com.example.newmeas.REALMS.RealmFactory
+import com.example.newmeas.Utils.EventRealmCallback
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var objAdapter: CustomAdapter
 
-    var clickedName: String = ""
+    var clickedName: Measures? = null
 
     @Inject
     lateinit var realmFactory : RealmFactory
@@ -62,7 +63,7 @@ class MainActivity : AppCompatActivity() {
     private fun clickedRecyclerItem(mess: Measures) {
 
         openContextMenu(recyclerView)
-        clickedName = mess.name
+        clickedName = mess
 
 
         /*
@@ -94,11 +95,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreateContextMenu(menu, v, menuInfo)
 
         //Set Header of Context Menu
-       // menu!!.setHeaderTitle("Select Option")
+        menu!!.setHeaderTitle("Действия:")
 
-        menu?.add(0, v!!.id, 0, "Открыть")
-        menu?.add(0, v!!.id, 1, "Удалить")
-        menu?.add(0, v!!.id, 2, "Test")
+        menu.run {
+            add(0, v!!.id, 0, "Открыть")
+            add(0, v.id, 1, "Удалить")
+            add(0, v.id, 2, "Test")
+        }
 
 
     }
@@ -107,18 +110,22 @@ class MainActivity : AppCompatActivity() {
 
         val itemMenu = item?.title
 
-        if (clickedName != "") {
+        if (clickedName != null) {
             when(itemMenu)
             {
-                "Удалить", "Открыть" -> Toast.makeText(applicationContext,"Name is $clickedName, clicked $itemMenu", Toast.LENGTH_SHORT).show()
-                "Test" -> Toast.makeText(applicationContext,"Test!", Toast.LENGTH_SHORT).show()
+                "Удалить" ->{
+                    viewModel.delete(clickedName!!.name, object : EventRealmCallback {
+                        override fun onComplete() {
+                            Toast.makeText(applicationContext, "Deleted, got and updated!", Toast.LENGTH_SHORT).show()
+                            objAdapter.updateList(viewModel.getAll()!!)
+                            recyclerView.adapter = objAdapter
+                        }
+                    })
+                }
+                "Открыть" -> Toast.makeText(applicationContext, "Opening...", Toast.LENGTH_SHORT).show()
+
             }
-
         }
-
-
         return true
     }
 }
-
-//todo попробовать сделать inject viewModel и на этом заканчиваем с Dagger 2
