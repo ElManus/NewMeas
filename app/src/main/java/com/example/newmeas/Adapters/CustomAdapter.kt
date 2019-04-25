@@ -46,7 +46,7 @@ class CustomAdapter(private var mess: MutableList<Measures>, private val clickLi
 
         fun bind(mess: Measures, clickListener: (Measures) -> Unit) {
             itemView.recyclerCounterTitle.text = mess.name
-            itemView.recyclerCounterCurrentValue.text = mess.currentValue.toString()
+            itemView.recyclerCounterCurrentValue.text = mess.valuesList.first().toString()
             itemView.setOnClickListener { clickListener(mess) }
         }
     }

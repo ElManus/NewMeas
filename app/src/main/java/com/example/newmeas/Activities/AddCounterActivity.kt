@@ -3,6 +3,8 @@ package com.example.newmeas.Activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,12 +21,21 @@ import kotlinx.android.synthetic.main.add_counter_activity.*
 class AddCounterActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MeasuresVM
+    private var valuesListFloat: ArrayList<Float> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.add_counter_activity)
 
         initVM()
+
+        /*
+        ListView
+         */
+
+        val listView = findViewById<ListView>(R.id.measValues)
+        val adapter = ArrayAdapter<Float> (this, android.R.layout.simple_list_item_1, valuesListFloat)
+        listView.adapter = adapter
 
         //region =>Intent from MainActivity
         val arg: Bundle? = intent.extras
@@ -42,13 +53,31 @@ class AddCounterActivity : AppCompatActivity() {
             val meas = viewModel.findByName(name)
             meas.let {
                 measName.setText(it?.name)
-                measCurrValue.setText(it?.currentValue.toString())
-                Toast.makeText(applicationContext,"name = ${it?.name},value =  ${it?.currentValue}", Toast.LENGTH_SHORT).show()
+
+               /* if (!meas?.valuesList?.isEmpty()!!){
+                    Toast.makeText(applicationContext, "Not empty", Toast.LENGTH_SHORT).show()
+                } else{
+                    Toast.makeText(applicationContext, "SO EmpTY!", Toast.LENGTH_SHORT).show()
+                }
+*/
+                valuesListFloat.clear()
+                valuesListFloat.addAll(meas?.valuesList!!)
+
+
+               adapter.setNotifyOnChange(true)
+
             }
 
         }
         //endregion
 
+        /*
+        todo сделать сохранение в базе изменений (если имя такое уже есть, то сохранить,
+        спросив разрешение на замену. Если новое, тогда посмотреть, есть ли такое имя в базе?
+        Если нет, то сохраняем с новым именем.
+        Закрыть в данной активности рилм.
+
+         */
         }
 
 

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.newmeas.Utils.EventRealmCallback
 import com.example.newmeas.Data.Measures
 import io.realm.Realm
-import javax.inject.Inject
+import io.realm.RealmList
 
 class Repository (val realm: Realm): Dao {
 
@@ -16,14 +16,19 @@ class Repository (val realm: Realm): Dao {
     /*
     Описываем  все методы работы с базой данных
      */
-    override fun insert (name: String, currentValue: Float): Boolean{
+    override fun insert (name: String,  valuesListAdd: RealmList<Float>): Boolean{
         //Проверка. Если такого имени нет, тогда асинхронно вносим новые данные.
         return if(realm.where(Measures::class.java).equalTo("name",name).findFirst() == null) {
 
             realm.executeTransactionAsync {
                 val item = Measures()
                 item.name = name
-                item.currentValue = currentValue
+
+                item.run {
+                   valuesList.clear()
+                    valuesList.addAll(valuesListAdd)
+                }
+
                 it.insert(item)
             }
             true

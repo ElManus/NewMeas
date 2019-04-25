@@ -20,6 +20,7 @@ import com.example.newmeas.REALMS.RealmFactory
 import com.example.newmeas.Utils.EventRealmCallback
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.realm.Realm
+import io.realm.RealmList
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import kotlin.random.Random
@@ -49,7 +50,10 @@ class MainActivity : AppCompatActivity() {
 
         val fab = findViewById<FloatingActionButton>(R.id.add_fab)
         fab.setOnClickListener {
-            viewModel.insert("test" + Random.nextInt(0, 100), Random.nextFloat() )
+
+            viewModel.insert("test" + Random.nextInt(0, 100),RealmList(1.33f, 0.22f, 1.32f)
+          )
+
             val intent = Intent(this, AddCounterActivity::class.java)
             startActivity(intent)
             finish()
