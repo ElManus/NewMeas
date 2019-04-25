@@ -8,13 +8,8 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.newmeas.Adapters.CustomAdapter
-import com.example.newmeas.Data.Measures
 import com.example.newmeas.Data.MeasuresVM
 import com.example.newmeas.R
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_counter_activity.*
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -54,18 +49,13 @@ class AddCounterActivity : AppCompatActivity() {
             meas.let {
                 measName.setText(it?.name)
 
-               /* if (!meas?.valuesList?.isEmpty()!!){
-                    Toast.makeText(applicationContext, "Not empty", Toast.LENGTH_SHORT).show()
-                } else{
-                    Toast.makeText(applicationContext, "SO EmpTY!", Toast.LENGTH_SHORT).show()
-                }
-*/
                 valuesListFloat.clear()
                 valuesListFloat.addAll(meas?.valuesList!!)
 
+                adapter.notifyDataSetChanged()
 
-               adapter.setNotifyOnChange(true)
-
+                //todo сохранилось в локальный список. В RealmList должно сохраниться потом.
+                //todo продумать интерфейс. Что еще должно быть?
             }
 
         }
@@ -78,6 +68,19 @@ class AddCounterActivity : AppCompatActivity() {
         Закрыть в данной активности рилм.
 
          */
+
+
+
+        /*
+        ADD
+         */
+        addValue.setOnClickListener {
+            if(!EditTextMeasNewValue.text!!.isEmpty())
+            {
+                valuesListFloat.add(0, EditTextMeasNewValue.text.toString().toFloatOrNull()!!)
+                adapter.notifyDataSetChanged()
+            }
+        }
         }
 
 
