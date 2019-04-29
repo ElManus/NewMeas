@@ -3,6 +3,7 @@ package com.example.newmeas.Activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.Toast
@@ -10,13 +11,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.newmeas.Data.MeasuresVM
 import com.example.newmeas.R
+import io.realm.Realm
+import io.realm.RealmList
 import kotlinx.android.synthetic.main.add_counter_activity.*
 
-@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+//@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class AddCounterActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MeasuresVM
     private var valuesListFloat: ArrayList<Float> = arrayListOf()
+
+    private var nameMes: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +46,10 @@ class AddCounterActivity : AppCompatActivity() {
 
         //region =>Opening existing counter
         if (name != "null"){
+
+            Log.i("LOG", "name in field = $name")
+
+            nameMes.plus(name)
 
             /*
             Ниже - подключение к базе, поиск
@@ -87,9 +96,18 @@ class AddCounterActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
 
+        Log.i("LOG", "=========== onBackPressed START===========")
+        Log.i("LOG", "nameMes = $nameMes")
+
+        if (nameMes!="")
+        {
+            saveData(nameMes, valuesListFloat)
+        }
+
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
+        Realm.getDefaultInstance().close()
     }
 
     private fun initVM() {
@@ -98,6 +116,20 @@ class AddCounterActivity : AppCompatActivity() {
 
 
         })
+    }
+
+    private fun saveData(name: String, valueListArray: ArrayList<Float>) {
+
+        Log.i("LOG", "=========== in saveData START===========")
+
+        val listRealm: RealmList<Float> = RealmList()
+
+        for(tt in valueListArray)
+        {
+            listRealm.add(tt)
+        }
+
+        viewModel.replace(name, listRealm)
     }
 }
 

@@ -19,4 +19,6 @@ interface Dao {
 
     fun getAll(): MutableList<Measures>
 
+    fun replace(newName: String, newValuesList: RealmList<Float>)
+
 }

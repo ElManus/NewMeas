@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+            android:id="@+id/menu_email"
+            android:title="menu"
+            android:icon="@android:drawable/ic_dialog_email"
+            app:showAsAction="ifRoom"
+    />
+
+    <item
+            android:id="@+id/test1"
+            android:title="test1"
+            android:icon="@android:drawable/ic_lock_idle_lock"
+            app:showAsAction="ifRoom"
+    />
+</menu>
