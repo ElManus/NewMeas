@@ -1,11 +1,13 @@
 package com.example.newmeas.Activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -48,14 +50,14 @@ class MainActivity : AppCompatActivity() {
         /*
         Toolbar
          */
-        setSupportActionBar(mainToolbar)
+       /* setSupportActionBar(mainToolbar)
         val actionBar = supportActionBar
         actionBar!!.title = "Счетчики"
         actionBar.subtitle = "Управляй..."
         actionBar.elevation = 4.0F
         actionBar.setDisplayShowHomeEnabled(true)
         //actionBar.setLogo(R.mipmap.ic_launcher)
-        actionBar.setDisplayUseLogoEnabled(true)
+        actionBar.setDisplayUseLogoEnabled(true)*/
 
         App.appComponent.injectMainActivity(this)
         realmFactory.setRealmConfiguration()
@@ -68,8 +70,7 @@ class MainActivity : AppCompatActivity() {
         val fab = findViewById<FloatingActionButton>(R.id.add_fab)
         fab.setOnClickListener {
 
-            viewModel.insert("test" + Random.nextInt(0, 100),RealmList(1.33f, 0.22f, 1.32f)
-          )
+           //viewModel.insert("test" + Random.nextInt(0, 100),RealmList(1.33f, 0.22f, 1.32f))
 
             val intent = Intent(this, AddCounterActivity::class.java)
             startActivity(intent)
@@ -142,7 +143,7 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.toolbar_menu1,menu)
 
        /* КОД ЗАМЕНЫ */
-       menuItem = menu!!.findItem(R.id.test1)
+       menuItem = menu!!.findItem(R.id.saveInToolbar)
        /* menuItem.icon = ContextCompat.getDrawable(this, R.drawable.abc_ic_star_black_48dp)*/
 
 
@@ -152,17 +153,15 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle presses on the action bar menu items
         when (item.itemId) {
-            R.id.test1 -> {
+            R.id.saveInToolbar -> {
                 Toast.makeText(applicationContext,"test1", Toast.LENGTH_LONG).show()
                 return true
             }
-            R.id.menu_email -> {
-                //Toast.makeText(applicationContext,"mail", Toast.LENGTH_LONG).show()
-                menuItem!!.icon = ContextCompat.getDrawable(this, R.drawable.abc_ic_star_black_48dp)
-                return true
-            }
+
         }
         return super.onOptionsItemSelected(item)
     }
+
+
 }
 

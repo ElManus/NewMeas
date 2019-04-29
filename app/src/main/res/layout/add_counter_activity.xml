@@ -18,6 +18,8 @@
             app:counterMaxLength="30"
             android:layout_margin="10dp"
             app:hintAnimationEnabled="true"
+            android:focusedByDefault="false"
+            android:focusableInTouchMode="false"
             android:hint="Название счетчика:"
             android:layout_marginTop="8dp"
 
